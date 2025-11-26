@@ -53,11 +53,16 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{/*
 Build CoreWeave hostname from service name, orgID, and clusterName
 Usage: {{ include "strudel.coreweaveHostname" (dict "service" "strudel" "context" .) }}
+Requires: orgID and clusterName to be set in values (via ArgoCD parameters or values file)
 */}}
 {{- define "strudel.coreweaveHostname" -}}
 {{- $service := .service -}}
-{{- $orgID := .context.Values.orgID -}}
-{{- $clusterName := .context.Values.clusterName -}}
+{{- $orgID := .context.Values.orgID | default "" -}}
+{{- $clusterName := .context.Values.clusterName | default "" -}}
+{{- if and $orgID $clusterName -}}
 {{- printf "%s.%s-%s.coreweave.app" $service $orgID $clusterName -}}
+{{- else -}}
+{{- fail "orgID and clusterName must be set in values (set via ArgoCD parameters: orgID and clusterName)" -}}
+{{- end -}}
 {{- end }}
 
