@@ -1,0 +1,15 @@
+apiVersion: v2
+name: strudel
+description: A Helm chart for Strudel live coding web app with Prometheus and Grafana
+type: application
+version: 0.1.0
+appVersion: "0.6.0"
+keywords:
+  - strudel
+  - livecoding
+  - music
+  - prometheus
+  - grafana
+maintainers:
+  - name: Strudel Team
+
