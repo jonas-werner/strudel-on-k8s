@@ -1,26 +1,26 @@
-{{- if .Values.ingress.enabled }}
+{{- if and .Values.grafana.enabled .Values.grafana.ingress.enabled }}
 {{- $fullName := include "strudel.fullname" . }}
-{{- $svcPort := .Values.strudel.service.port }}
-{{- $hostname := include "strudel.coreweaveHostname" (dict "service" "strudel" "context" .) }}
+{{- $svcPort := .Values.grafana.port }}
+{{- $hostname := include "strudel.coreweaveHostname" (dict "service" "grafana" "context" .) }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}-ingress
+  name: {{ $fullName }}-grafana-ingress
   labels:
     {{- include "strudel.labels" . | nindent 4 }}
-    component: ingress
-  {{- with .Values.ingress.annotations }}
+    component: grafana-ingress
+  {{- with .Values.grafana.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if .Values.ingress.ingressClassName }}
-  ingressClassName: {{ .Values.ingress.ingressClassName }}
+  {{- if .Values.grafana.ingress.ingressClassName }}
+  ingressClassName: {{ .Values.grafana.ingress.ingressClassName }}
   {{- end }}
-  {{- if .Values.ingress.tls }}
+  {{- if .Values.grafana.ingress.tls }}
   tls:
-    {{- range .Values.ingress.tls }}
+    {{- range .Values.grafana.ingress.tls }}
     - hosts:
         {{- if .hosts }}
         {{- range .hosts }}
@@ -36,14 +36,12 @@ spec:
     - host: {{ $hostname | quote }}
       http:
         paths:
-          {{- range .Values.ingress.paths }}
-          - path: {{ .path }}
-            pathType: {{ .pathType }}
+          - path: /
+            pathType: Prefix
             backend:
               service:
-                name: {{ $fullName }}-app
+                name: {{ $fullName }}-grafana
                 port:
                   number: {{ $svcPort }}
-          {{- end }}
 {{- end }}
 
