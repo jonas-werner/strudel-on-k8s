@@ -1,6 +1,11 @@
 # Default values for strudel
 # This is a YAML-formatted file.
 
+# CoreWeave cluster configuration
+# These values should be set via ArgoCD parameters or overridden during deployment
+orgID: ""
+clusterName: ""
+
 # Strudel application configuration
 strudel:
   enabled: true
