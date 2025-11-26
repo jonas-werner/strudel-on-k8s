@@ -28,10 +28,12 @@ spec:
           protocol: TCP
         {{- if .Values.strudel.env }}
         env:
-          {{- if .Values.strudel.env.metricsApiUrl }}
           - name: METRICS_API_URL
+            {{- if and .Values.strudel.env.metricsApiUrl (ne .Values.strudel.env.metricsApiUrl "") }}
             value: "{{ .Values.strudel.env.metricsApiUrl }}"
-          {{- end }}
+            {{- else }}
+            value: "http://{{ include "strudel.fullname" . }}-metrics-server:{{ .Values.metricsServer.port }}"
+            {{- end }}
           {{- if .Values.strudel.env.extraEnv }}
           {{- toYaml .Values.strudel.env.extraEnv | nindent 10 }}
           {{- end }}

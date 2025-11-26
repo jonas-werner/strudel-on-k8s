@@ -17,10 +17,12 @@ data:
 
     scrape_configs:
       - job_name: 'metrics-server'
+        metrics_path: '/metrics'
         static_configs:
           - targets: ['{{ include "strudel.fullname" . }}-metrics-server:{{ .Values.metricsServer.port }}']
             labels:
               service: 'metrics-server'
+              job: 'metrics-server'
 
 {{- if .Values.prometheus.storage.size }}
 ---
