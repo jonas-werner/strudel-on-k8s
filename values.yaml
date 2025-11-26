@@ -85,21 +85,27 @@ grafana:
       memory: "512Mi"
       cpu: "500m"
 
-# Ingress configuration
+  # Ingress configuration
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    tls:
+      - secretName: grafana-tls
+        hosts: [] 
+
+# Ingress configuration for Strudel application
 ingress:
-  enabled: false
-  className: traefik
+  enabled: true
+  ingressClassName: traefik
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
-  hosts:
-    - host: strudel.example.com
-      paths:
-        - path: /
-          pathType: Prefix
-  tls: []
-  # Example TLS configuration:
-  # tls:
-  #   - secretName: strudel-tls
-  #     hosts:
-  #       - strudel.example.com
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+
+  paths:
+    - path: /
+      pathType: Prefix
+  tls:
+    - secretName: strudel-tls
+      hosts: []  
 

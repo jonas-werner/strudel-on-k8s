@@ -50,3 +50,14 @@ app.kubernetes.io/name: {{ include "strudel.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
+{{/*
+Build CoreWeave hostname from service name, orgID, and clusterName
+Usage: {{ include "strudel.coreweaveHostname" (dict "service" "strudel" "context" .) }}
+*/}}
+{{- define "strudel.coreweaveHostname" -}}
+{{- $service := .service -}}
+{{- $orgID := .context.Values.orgID -}}
+{{- $clusterName := .context.Values.clusterName -}}
+{{- printf "%s.%s-%s.coreweave.app" $service $orgID $clusterName -}}
+{{- end }}
+
