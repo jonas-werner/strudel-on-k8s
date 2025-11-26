@@ -6,7 +6,7 @@ strudel:
   enabled: true
   image:
     repository: jonaswerner/strudel
-    tag: 0.6.0
+    tag: latest
     pullPolicy: IfNotPresent
   replicas: 2
   port: 4321
@@ -28,7 +28,7 @@ metricsServer:
   enabled: true
   image:
     repository: jonaswerner/strudel-metrics-server
-    tag: 0.1.0
+    tag: latest
     pullPolicy: IfNotPresent
   replicas: 1
   port: 9090
