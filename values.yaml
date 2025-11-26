@@ -26,7 +26,7 @@ strudel:
       memory: "512Mi"
       cpu: "500m"
   env:
-    metricsApiUrl: "http://strudel-metrics-server:9090"
+    metricsApiUrl: ""  # Will be automatically set to the correct service name
 
 # Metrics server configuration
 metricsServer:
