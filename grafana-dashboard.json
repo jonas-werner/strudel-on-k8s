@@ -406,7 +406,7 @@
     }
   ],
   "preload": false,
-  "refresh": "15s",
+  "refresh": "30s",
   "schemaVersion": 42,
   "tags": [],
   "templating": {
