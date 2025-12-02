@@ -1,6 +1,6 @@
 # Strudel Helm Chart
 
-This Helm chart deploys the Strudel live coding web application along with Prometheus and Grafana for metrics collection and visualization.
+As part of the onboarding process, this Helm chart deploys the Strudel live coding web application along with Prometheus and Grafana for metrics collection and visualization.
 
 ## Chart contents 
 
