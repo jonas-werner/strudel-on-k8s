@@ -88,7 +88,9 @@ Grafana password manager
 {{- $password := "" }}
 
 {{- if $existingSecret }}
-  {{- if hasKey $existingSecret.data $passwordKey }}
+  {{- $secretLabels := $existingSecret.metadata.labels }}
+  {{- $secretReleaseInstance := index $secretLabels "app.kubernetes.io/instance" }}
+  {{- if and (hasKey $existingSecret.data $passwordKey) (eq $secretReleaseInstance .Release.Name) }}
     {{- $password = index $existingSecret.data $passwordKey | b64dec }}
   {{- end }}
 {{- end }}
