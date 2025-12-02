@@ -30,6 +30,7 @@ spec:
         {{- include "strudel.selectorLabels" . | nindent 8 }}
         component: grafana
     spec:
+      serviceAccountName: {{ include "strudel.serviceAccountName" . }}
       containers:
       - name: grafana
         image: "{{ .Values.grafana.image.repository }}:{{ .Values.grafana.image.tag }}"

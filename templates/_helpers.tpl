@@ -66,3 +66,41 @@ Requires: orgID and clusterName to be set in values (via ArgoCD parameters or va
 {{- end -}}
 {{- end }}
 
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "strudel.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "strudel.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+Grafana password manager
+*/}}
+{{- define "strudel.grafana.password.manager" -}}
+
+{{- $secretName := printf "%s-grafana" (include "strudel.fullname" .) }}
+{{- $existingSecret := (lookup "v1" "Secret" .Release.Namespace $secretName) }}
+{{- $passwordKey := "admin-password" }}
+{{- $password := "" }}
+
+{{- if $existingSecret }}
+  {{- if hasKey $existingSecret.data $passwordKey }}
+    {{- $password = index $existingSecret.data $passwordKey | b64dec }}
+  {{- end }}
+{{- end }}
+
+{{- if not $password }}
+  {{- if .Values.grafana.adminPassword }}
+    {{- $password = .Values.grafana.adminPassword }}
+  {{- else }}
+    {{- $password = randAlphaNum 32 }}
+  {{- end }}
+{{- end }}
+
+{{- $password | b64enc | quote -}}
+{{- end }}
+

@@ -18,6 +18,7 @@ spec:
         {{- include "strudel.selectorLabels" . | nindent 8 }}
         component: app
     spec:
+      serviceAccountName: {{ include "strudel.serviceAccountName" . }}
       containers:
       - name: strudel
         image: "{{ .Values.strudel.image.repository }}:{{ .Values.strudel.image.tag }}"
