@@ -19,7 +19,7 @@ metadata:
     {{- include "strudel.labels" . | nindent 4 }}
     component: grafana
 spec:
-  replicas: {{ .Values.grafana.replicas }}
+  replicas: 1  # Hardcoded to 1 since Grafana uses emptyDir storage (not shared between pods)
   selector:
     matchLabels:
       {{- include "strudel.selectorLabels" . | nindent 6 }}

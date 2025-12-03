@@ -75,7 +75,6 @@ grafana:
     repository: grafana/grafana
     tag: latest
     pullPolicy: IfNotPresent
-  replicas: 1
   port: 3000
   adminUser: admin
   # If adminPassword is empty, a random password will be generated
